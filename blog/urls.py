@@ -1,4 +1,6 @@
 from django.urls import path
-from . import views
+from .views import lista_peliculas
 
-urlpatterns = [path('', views.lista_public, name=' lista_public'),]
+urlpatterns = [
+    path('', lista_peliculas, name='lista_peliculas'),
+]

@@ -1,61 +1,56 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Blog</title>
+    <meta charset="UTF-8">
+    <title>Películas</title>
     <style>
-        .filtro-usuarios {
-            margin: 15px 0;
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        .pelicula {
+            border: 1px solid #ccc;
+            background-color: white;
+            border-radius: 8px;
             padding: 10px;
-            background: #f0f0f0;
+            margin: 10px 0;
+            display: flex;
+            gap: 15px;
+            box-shadow: 2px 2px 6px #ccc;
         }
-        .usuario-filtro {
-            display: inline-block;
-            margin-right: 10px;
-            padding: 5px 10px;
-            background: #e0e0e0;
-            border-radius: 3px;
+        .pelicula img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 4px;
         }
-        .usuario-filtro.activo {
-            background: #5b4ba3;
-            color: white;
-        }
-        .limpiar-filtro {
-            display: inline-block;
-            margin-left: 10px;
-            color: #090909;
+        .info {
+            flex-grow: 1;
         }
     </style>
 </head>
 <body>
-    <div style="background: rgb(101, 172, 208);">
-        <h1><a href="/">Blog</a></h1>
-    </div>
-    <!-- Filtro por usuario usando enlaces -->
-    <div class="filtro-usuarios">
-    <strong>Filtrar por autor:</strong>
-   
-    <!-- Opción "Todos" -->
-    <a href="?" class="usuario-filtro {% if not usuario_activo %}activo{% endif %}">
-        Todos
-    </a>
-   
-    <!-- Opciones por usuario -->
-    {% for usuario in usuarios %}
-        <a href="?usuario={{ usuario.id }}"
-           class="usuario-filtro {% if usuario_activo == usuario.id %}activo{% endif %}">
-            {{ usuario.username }}
-        </a>
+    <h1>Películas disponibles</h1>
+    {% for genero, años in agrupadas.items %}
+        <h2>{{ genero }}</h2>
+        {% for anio, pelis in años.items %}
+            <h3>{{ genero }} {{ anio }}</h3>
+            {% for pelicula in pelis %}
+                <div class="pelicula">
+                    {% if pelicula.imagen %}
+                        <img src="{{ pelicula.imagen.url }}" alt="{{ pelicula.titulo }}">
+                    {% endif %}
+                    <div class="info">
+                        <h4>{{ pelicula.titulo }} ({{ pelicula.anio }})</h4>
+                        <p>{{ pelicula.descripcion }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
     {% endfor %}
-   </div>
-
-   <!-- Lista de publicaciones -->
-
-   <div>
-    {% for publicacion in publicaciones %}
-    <p>Publicado: {{ publicacion.fecha_publicacion }} por autor/a: {{ publicacion.autor.username }} </p>
-    <h2> <a href=""> {{publicacion.titulo}} </a> </h2>
-    <p> {{ publicacion.texto|linebreaksbr }} </p>
-    <hr>    
-    {% endfor %}
-   </div>
 </body>
 </html>
